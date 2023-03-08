@@ -9,5 +9,4 @@ public class ChatMessage {
     private String sender;
     private MessageType type;
 
-    // constructors, getters and setters
 }

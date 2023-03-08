@@ -7,6 +7,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -35,12 +36,16 @@ public class WebController {
     @Autowired
     private CacheManager cacheManager;
 
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
+
     @MessageMapping("/chat.sendMessage/{roomId}")
     @SendTo("/topic/{roomId}")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage
             , @DestinationVariable String roomId
     ) {
         redisTemplate.opsForList().rightPushAll(roomId, chatMessage);
+        kafkaTemplate.send("likelion", chatMessage.getSender() + ": " + chatMessage.getContent());
         return chatMessage;
     }
 
