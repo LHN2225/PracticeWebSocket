@@ -33,12 +33,11 @@ Docker compose file:
 
 And 2 commands for start and stop Kafka through Docker composer is
 
-'''
-// Start docker-compose
+```
+#Start docker-compose
 docker-compose up -d
 
-// End docker-compose
+#End docker-compose
 docker-compose down
-'''
-
+```
 ![img7](https://github.com/LHN2225/PracticeWebSocket/blob/main/result%20image/7.png)
